@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Compounding Decision Framework™</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1F3C;
+  --navy-mid:#162d52;
+  --gold:#C8962E;
+  --gold-light:#e8b84b;
+  --teal:#0F6E56;
+  --teal-light:#1a9973;
+  --coral:#D85A30;
+  --slate:#888780;
+  --bg:#F7F5F0;
+  --card:#FFFFFF;
+  --text:#1a1a18;
+  --muted:#5F5E5A;
+  --border:#D8D5CC;
+  --border-light:#EAE7E0;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;
+  background:var(--navy);
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(200,150,46,.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(15,110,86,.1) 0%, transparent 60%);
+}
+
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:2rem 4rem;
+  position:relative;z-index:10;
+}
+
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;
+  font-weight:600;
+  color:#fff;
+  letter-spacing:.04em;
+}
+
+.nav-logo span{color:var(--gold)}
+
+.nav-links{
+  display:flex;gap:2.5rem;align-items:center;
+}
+
+.nav-links a{
+  font-size:.8rem;
+  font-weight:500;
+  color:rgba(255,255,255,.55);
+  text-decoration:none;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  transition:color .2s;
+}
+
+.nav-links a:hover{color:rgba(255,255,255,.9)}
+
+.nav-cta{
+  background:var(--gold)!important;
+  color:var(--navy)!important;
+  padding:.45rem 1.2rem;
+  border-radius:4px;
+  font-weight:600!important;
+}
+
+.hero-body{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  padding:4rem 2rem;
+  position:relative;z-index:5;
+}
+
+.hero-eyebrow{
+  font-size:.7rem;
+  font-weight:500;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:.75rem;
+}
+
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';display:block;width:30px;height:1px;background:var(--gold);opacity:.5;
+}
+
+.hero-headline{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3rem, 8vw, 6.5rem);
+  font-weight:300;
+  line-height:1.05;
+  color:#fff;
+  max-width:900px;
+  margin-bottom:2rem;
+}
+
+.hero-headline em{
+  font-style:italic;
+  color:var(--gold-light);
+}
+
+.hero-sub{
+  font-size:1rem;
+  color:rgba(255,255,255,.55);
+  max-width:540px;
+  line-height:1.8;
+  margin-bottom:3rem;
+  font-weight:300;
+}
+
+.hero-actions{
+  display:flex;gap:1rem;align-items:center;flex-wrap:wrap;justify-content:center;
+}
+
+.btn-primary{
+  background:var(--gold);
+  color:var(--navy);
+  padding:.85rem 2.25rem;
+  border-radius:4px;
+  font-size:.85rem;
+  font-weight:600;
+  text-decoration:none;
+  letter-spacing:.03em;
+  transition:all .2s;
+  border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+}
+
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-1px)}
+
+.btn-ghost{
+  background:transparent;
+  color:rgba(255,255,255,.75);
+  padding:.85rem 2.25rem;
+  border-radius:4px;
+  font-size:.85rem;
+  font-weight:500;
+  text-decoration:none;
+  letter-spacing:.03em;
+  border:1px solid rgba(255,255,255,.2);
+  transition:all .2s;
+  cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+}
+
+.btn-ghost:hover{border-color:rgba(255,255,255,.5);color:#fff}
+
+.hero-footer{
+  padding:2rem 4rem;
+  display:flex;align-items:center;justify-content:center;gap:3rem;
+  border-top:1px solid rgba(255,255,255,.07);
+  position:relative;z-index:5;
+}
+
+.hero-stat{text-align:center}
+
+.hero-stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;
+  font-weight:300;
+  color:#fff;
+  line-height:1;
+}
+
+.hero-stat-label{
+  font-size:.65rem;
+  color:rgba(255,255,255,.4);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  margin-top:.3rem;
+}
+
+.stat-divider{width:1px;height:40px;background:rgba(255,255,255,.1)}
+
+/* ─── SECTION COMMONS ─── */
+section{padding:6rem 4rem}
+
+.section-eyebrow{
+  font-size:.65rem;
+  font-weight:500;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:1rem;
+}
+
+.section-headline{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem, 4vw, 3.2rem);
+  font-weight:300;
+  color:var(--navy);
+  line-height:1.15;
+  max-width:600px;
+  margin-bottom:1.25rem;
+}
+
+.section-sub{
+  font-size:.9rem;
+  color:var(--muted);
+  max-width:520px;
+  line-height:1.8;
+  font-weight:300;
+}
+
+/* ─── VS SECTION ─── */
+.vs-section{
+  background:#fff;
+  padding:6rem 4rem;
+}
+
+.vs-grid{
+  display:grid;
+  grid-template-columns:1fr 80px 1fr;
+  gap:0;
+  max-width:1000px;
+  margin:3rem auto 0;
+  align-items:stretch;
+}
+
+.vs-col{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.vs-col.left{border-color:#E0D8D0;background:#FAFAF8}
+
+.vs-col-header{
+  padding:1.5rem;
+  border-bottom:1px solid var(--border-light);
+  display:flex;align-items:center;gap:.75rem;
+}
+
+.vs-col-icon{
+  width:32px;height:32px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
+}
+
+.vs-col-icon.slides{background:#FFF0E8}
+.vs-col-icon.framework{background:#E8F5F1}
+
+.vs-col-title{font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+
+.vs-col.left .vs-col-title{color:var(--slate)}
+.vs-col.right .vs-col-title{color:var(--teal)}
+
+.vs-items{padding:1.5rem}
+
+.vs-item{
+  display:flex;align-items:flex-start;gap:.75rem;
+  padding:.6rem 0;
+  border-bottom:1px solid var(--border-light);
+  font-size:.8rem;
+  line-height:1.5;
+  color:var(--text);
+}
+
+.vs-item:last-child{border-bottom:none;padding-bottom:0}
+
+.vs-marker{
+  width:18px;height:18px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.55rem;font-weight:700;color:#fff;margin-top:1px;
+}
+
+.marker-x{background:var(--coral);opacity:.8}
+.marker-check{background:var(--teal)}
+
+.vs-mid{
+  display:flex;align-items:center;justify-content:center;
+}
+
+.vs-vs{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;
+  font-weight:300;
+  color:var(--slate);
+  letter-spacing:.1em;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+}
+
+/* ─── FRAMEWORK STEPS ─── */
+.framework-section{
+  background:var(--bg);
+  padding:6rem 4rem;
+}
+
+.steps-row{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  margin:3rem 0;
+}
+
+.step{
+  background:var(--card);
+  padding:1.75rem 1.25rem;
+  cursor:pointer;
+  transition:background .2s;
+  position:relative;
+}
+
+.step:hover,.step.active{background:#F0F8F5}
+
+.step-num-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;
+  font-size:.75rem;font-weight:600;color:#fff;
+  margin-bottom:1rem;
+}
+
+.step-name{
+  font-size:.72rem;
+  font-weight:600;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:var(--navy);
+  margin-bottom:.5rem;
+  line-height:1.3;
+}
+
+.step-brief{
+  font-size:.72rem;
+  color:var(--muted);
+  line-height:1.55;
+}
+
+.step-tag{
+  display:inline-block;
+  font-size:.58rem;
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  padding:2px 7px;
+  border-radius:3px;
+  margin-top:.75rem;
+}
+
+.tag-strong{background:#E8F4E8;color:#2D6E2D}
+.tag-gap{background:#FAECE7;color:#8B3020}
+.tag-distinctive{background:#E8EFF8;color:#1D4A8B}
+
+.step-detail{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:2rem;
+  margin-bottom:2rem;
+  display:none;
+}
+
+.step-detail.visible{display:block}
+
+.step-detail-head{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;
+  font-weight:300;
+  color:var(--navy);
+  margin-bottom:.5rem;
+}
+
+.step-detail-sub{
+  font-size:.85rem;
+  color:var(--muted);
+  margin-bottom:1.5rem;
+  line-height:1.7;
+}
+
+.step-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+
+.detail-block-title{
+  font-size:.65rem;
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--navy);
+  margin-bottom:.75rem;
+}
+
+.detail-list li{
+  list-style:none;
+  font-size:.8rem;
+  color:var(--muted);
+  padding:.3rem 0;
+  border-bottom:1px solid var(--border-light);
+  line-height:1.5;
+  display:flex;align-items:flex-start;gap:.5rem;
+}
+
+.detail-list li::before{content:'→';color:var(--gold);flex-shrink:0;font-size:.7rem;margin-top:2px}
+
+.output-chip{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--navy);
+  color:#fff;
+  padding:.5rem 1rem;
+  border-radius:4px;
+  font-size:.72rem;
+  font-weight:500;
+  font-family:'DM Mono',monospace;
+}
+
+/* ─── LENS ─── */
+.lens-section{
+  background:var(--navy);
+  padding:6rem 4rem;
+}
+
+.lens-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:1px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;
+  overflow:hidden;
+  margin:3rem 0;
+}
+
+.lens-cell{
+  background:rgba(255,255,255,.03);
+  padding:2rem 1.25rem;
+  transition:background .2s;
+}
+
+.lens-cell:hover{background:rgba(255,255,255,.07)}
+
+.lens-weight-bar{
+  height:2px;
+  border-radius:1px;
+  margin-bottom:1.25rem;
+}
+
+.lens-label{
+  font-size:.65rem;
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+  margin-bottom:.5rem;
+}
+
+.lens-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;
+  font-weight:300;
+  color:#fff;
+  margin-bottom:.75rem;
+}
+
+.lens-q{
+  font-size:.75rem;
+  color:rgba(255,255,255,.5);
+  line-height:1.6;
+  font-style:italic;
+}
+
+.lens-weight-label{
+  display:inline-block;
+  font-size:.6rem;
+  font-weight:600;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.3);
+  margin-top:1rem;
+  padding:2px 8px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:3px;
+}
+
+/* ─── SCORER ─── */
+.scorer-section{
+  background:#fff;
+  padding:6rem 4rem;
+}
+
+.scorer-layout{
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:3rem;
+  align-items:start;
+  margin-top:3rem;
+}
+
+/* Dimension cards */
+.dim-card{
+  border:1px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+  background:var(--card);
+  transition:box-shadow .2s;
+}
+
+.dim-card:hover{box-shadow:0 4px 16px rgba(13,31,60,.07)}
+
+.dim-card-header{
+  display:flex;align-items:center;gap:.75rem;
+  padding:1rem 1.25rem;
+  cursor:pointer;
+  user-select:none;
+  transition:background .15s;
+}
+
+.dim-card-header:hover{background:#FAFAF8}
+
+.dim-card-color{
+  width:4px;height:28px;border-radius:2px;flex-shrink:0;
+}
+
+.dim-card-title{
+  flex:1;
+  font-size:.78rem;
+  font-weight:600;
+  color:var(--navy);
+  letter-spacing:.02em;
+  display:flex;align-items:center;gap:.5rem;
+}
+
+.dim-weight-tag{
+  font-size:.6rem;
+  font-weight:500;
+  color:var(--muted);
+  background:var(--bg);
+  padding:1px 6px;
+  border-radius:3px;
+  border:1px solid var(--border-light);
+  font-family:'DM Mono',monospace;
+}
+
+.dim-card-score{
+  font-family:'DM Mono',monospace;
+  font-size:.78rem;
+  color:var(--gold);
+  font-weight:500;
+  margin-right:.25rem;
+}
+
+.dim-card-arrow{
+  font-size:.65rem;
+  color:var(--muted);
+  transition:transform .2s;
+}
+
+.dim-card-arrow.open{transform:rotate(180deg)}
+
+.dim-card-body{
+  display:none;
+  padding:0 1.25rem 1.25rem;
+  border-top:1px solid var(--border-light);
+}
+
+.dim-card-body.open{display:block}
+
+.dim-card-intro{
+  font-size:.78rem;
+  color:var(--muted);
+  line-height:1.65;
+  margin:1rem 0 .85rem;
+  font-style:italic;
+}
+
+.dim-questions{
+  list-style:none;
+  counter-reset:q;
+}
+
+.dim-questions li{
+  counter-increment:q;
+  display:flex;align-items:flex-start;gap:.65rem;
+  font-size:.78rem;
+  color:var(--text);
+  line-height:1.55;
+  padding:.5rem 0;
+  border-bottom:1px solid var(--border-light);
+}
+
+.dim-questions li:last-child{border-bottom:none;padding-bottom:0}
+
+.dim-questions li::before{
+  content:counter(q);
+  display:inline-flex;align-items:center;justify-content:center;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--bg);
+  border:1px solid var(--border);
+  font-size:.6rem;font-weight:600;
+  color:var(--navy);flex-shrink:0;margin-top:1px;
+}
+
+.radar-wrap{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:2rem;
+}
+
+.radar-canvas-container{
+  position:relative;
+  max-width:380px;
+  margin:0 auto 1.5rem;
+}
+
+.legend{
+  display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;
+  font-size:.68rem;color:var(--muted);
+}
+
+.legend-item{display:flex;align-items:center;gap:.4rem}
+
+.legend-swatch{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+.controls{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.75rem;
+}
+
+.ctrl-intro{
+  font-size:.8rem;
+  color:var(--muted);
+  line-height:1.7;
+  margin-bottom:1.5rem;
+  padding-bottom:1.5rem;
+  border-bottom:1px solid var(--border-light);
+}
+
+.ctrl-group{margin-bottom:1.25rem}
+
+.ctrl-label{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.72rem;
+  font-weight:600;
+  color:var(--navy);
+  margin-bottom:.4rem;
+}
+
+.ctrl-label .ctrl-val{
+  font-family:'DM Mono',monospace;
+  font-size:.75rem;
+  color:var(--gold);
+}
+
+.ctrl-hint{
+  font-size:.65rem;
+  color:rgba(95,94,90,.6);
+  margin-top:.25rem;
+  line-height:1.4;
+}
+
+input[type=range]{
+  width:100%;
+  height:4px;
+  border-radius:2px;
+  background:var(--border);
+  outline:none;
+  -webkit-appearance:none;
+  cursor:pointer;
+}
+
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:16px;height:16px;
+  border-radius:50%;
+  background:var(--navy);
+  cursor:pointer;
+  transition:transform .15s;
+}
+
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+
+.score-panel{
+  background:var(--navy);
+  border-radius:8px;
+  padding:1.5rem;
+  margin-top:1.5rem;
+}
+
+.score-label{
+  font-size:.6rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(200,150,46,.7);
+  margin-bottom:.25rem;
+}
+
+.score-number{
+  font-family:'Cormorant Garamond',serif;
+  font-size:3rem;
+  font-weight:300;
+  color:#fff;
+  line-height:1;
+  margin-bottom:.25rem;
+}
+
+.score-number span{
+  font-size:1rem;
+  color:rgba(255,255,255,.3);
+}
+
+.score-track{height:4px;background:rgba(255,255,255,.1);border-radius:2px;margin:.75rem 0;overflow:hidden}
+
+.score-fill{
+  height:4px;
+  border-radius:2px;
+  background:linear-gradient(90deg,var(--coral),var(--gold),var(--teal));
+  transition:width .4s ease;
+}
+
+.score-verdict{
+  font-size:.78rem;
+  color:rgba(255,255,255,.7);
+  margin-bottom:1rem;
+  line-height:1.5;
+}
+
+.verdict-flags{border-top:1px solid rgba(255,255,255,.08);padding-top:.75rem}
+
+.flag{
+  display:flex;align-items:flex-start;gap:.5rem;
+  margin-bottom:.45rem;
+  font-size:.68rem;
+  color:rgba(255,255,255,.5);
+  line-height:1.45;
+}
+
+.flag-dot{
+  width:5px;height:5px;border-radius:50%;
+  flex-shrink:0;margin-top:.3rem;
+}
+
+.score-btn{
+  width:100%;
+  margin-top:1.25rem;
+  padding:.7rem;
+  background:rgba(200,150,46,.15);
+  border:1px solid rgba(200,150,46,.3);
+  color:var(--gold-light);
+  font-size:.75rem;
+  font-weight:500;
+  font-family:'DM Sans',sans-serif;
+  border-radius:4px;
+  cursor:pointer;
+  transition:all .2s;
+  letter-spacing:.03em;
+}
+
+.score-btn:hover{background:rgba(200,150,46,.25);border-color:rgba(200,150,46,.5)}
+
+/* ─── CRITIQUE ─── */
+.critique-section{
+  background:var(--bg);
+  padding:6rem 4rem;
+}
+
+.insight-banner{
+  background:var(--navy);
+  border-radius:10px;
+  padding:2rem;
+  margin:2.5rem 0;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:1.5rem;
+  align-items:start;
+}
+
+.insight-icon{
+  font-size:1.75rem;
+  line-height:1;
+  margin-top:.1rem;
+}
+
+.insight-label-small{
+  font-size:.6rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:rgba(200,150,46,.7);
+  margin-bottom:.4rem;
+}
+
+.insight-body{
+  font-size:.9rem;
+  color:rgba(255,255,255,.8);
+  line-height:1.75;
+  font-weight:300;
+}
+
+.crit-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+
+.additional-frameworks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.crit-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:1.75rem;
+}
+
+.crit-card-title{
+  font-size:.65rem;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:1.25rem;
+  padding-bottom:.75rem;
+  border-bottom:1px solid var(--border-light);
+}
+
+.crit-card-title.strong{color:var(--teal)}
+.crit-card-title.weak{color:var(--coral)}
+.crit-card-title.adds{color:var(--navy)}
+
+.crit-item{
+  display:flex;gap:.75rem;
+  margin-bottom:1rem;
+  font-size:.78rem;
+  line-height:1.6;
+  color:var(--text);
+}
+
+.crit-item:last-child{margin-bottom:0}
+
+.crit-icon{
+  width:20px;height:20px;border-radius:4px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;font-weight:700;color:#fff;margin-top:1px;
+}
+
+.icon-s{background:var(--teal)}
+.icon-w{background:var(--coral)}
+.icon-a{background:var(--navy)}
+
+.crit-item strong{font-weight:600;color:var(--navy);display:block;margin-bottom:.15rem}
+
+/* ─── CTA ─── */
+.cta-section{
+  background:var(--navy);
+  padding:8rem 4rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.cta-section::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 80% at 50% 50%, rgba(200,150,46,.08) 0%, transparent 70%);
+}
+
+.cta-headline{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.5rem,5vw,4rem);
+  font-weight:300;
+  color:#fff;
+  line-height:1.1;
+  margin-bottom:1.25rem;
+  position:relative;z-index:1;
+}
+
+.cta-sub{
+  font-size:.95rem;
+  color:rgba(255,255,255,.5);
+  margin-bottom:2.5rem;
+  max-width:480px;
+  margin-left:auto;margin-right:auto;
+  line-height:1.75;
+  font-weight:300;
+  position:relative;z-index:1;
+}
+
+.cta-actions{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  position:relative;z-index:1;
+}
+
+.btn-lg{
+  padding:1rem 2.75rem;
+  font-size:.9rem;
+  font-family:'DM Sans',sans-serif;
+  font-weight:600;
+  border-radius:4px;
+  border:none;cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  transition:all .2s;
+  letter-spacing:.02em;
+}
+
+.btn-gold{
+  background:var(--gold);
+  color:var(--navy);
+}
+
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px)}
+
+.btn-outline{
+  background:transparent;
+  color:rgba(255,255,255,.75);
+  border:1px solid rgba(255,255,255,.2)!important;
+}
+
+.btn-outline:hover{border-color:rgba(255,255,255,.5)!important;color:#fff}
+
+/* ─── FOOTER ─── */
+footer{
+  background:#09172b;
+  padding:2.5rem 4rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+
+.footer-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;
+  font-weight:400;
+  color:rgba(255,255,255,.5);
+}
+
+.footer-copy{
+  font-size:.7rem;
+  color:rgba(255,255,255,.25);
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.fade-up{
+  animation:fadeUp .7s ease both;
+}
+
+.fade-up-1{animation-delay:.1s}
+.fade-up-2{animation-delay:.25s}
+.fade-up-3{animation-delay:.4s}
+.fade-up-4{animation-delay:.55s}
+
+/* ─── HAMBURGER NAV ─── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+  background: none;
+  border: none;
+  z-index: 200;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 2px;
+  transition: all 0.25s;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--navy);
+  z-index: 150;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: #fff; }
+.mobile-menu .nav-cta {
+  background: var(--gold) !important;
+  color: var(--navy) !important;
+  padding: 0.75rem 2rem !important;
+  border-radius: 4px;
+  font-weight: 600 !important;
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  nav { padding: 1.25rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+
+  section { padding: 4rem 1.5rem; }
+  .vs-section,.framework-section,.lens-section,.scorer-section,.critique-section,.cta-section { padding: 4rem 1.5rem; }
+
+  /* Hero */
+  .hero-body { padding: 3rem 1.5rem; }
+  .hero-headline { font-size: clamp(2.4rem, 10vw, 3.5rem); }
+  .hero-sub { font-size: 0.88rem; }
+  .hero-actions { flex-direction: column; width: 100%; }
+  .hero-actions a { width: 100%; text-align: center; }
+  .hero-footer { padding: 1.5rem; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .hero-stat-num { font-size: 1.5rem; }
+  .stat-divider { display: none; }
+
+  /* VS section */
+  .vs-grid { grid-template-columns: 1fr; gap: 1rem; margin-top: 2rem; }
+  .vs-mid { display: none; }
+
+  /* Framework steps — single column accordion on mobile */
+  .steps-row { grid-template-columns: 1fr; gap: 1px; }
+  .step { padding: 1.25rem; }
+  .step-detail-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .step-detail { padding: 1.25rem; }
+
+  /* Lens grid — 2 col then single */
+  .lens-grid { grid-template-columns: 1fr 1fr; }
+  .lens-cell:last-child { grid-column: 1 / -1; }
+  .lens-cell { padding: 1.5rem 1rem; }
+
+  /* Scorer — full single column */
+  .scorer-layout { grid-template-columns: 1fr !important; gap: 2rem; }
+  .radar-wrap { order: -1; }
+  .controls { position: static !important; }
+  .radar-canvas-container { max-width: 280px; }
+
+  /* Critique */
+  .crit-grid { grid-template-columns: 1fr; }
+  .additional-frameworks-grid { grid-template-columns: 1fr; }
+  .insight-banner { grid-template-columns: auto 1fr; gap: 1rem; padding: 1.25rem; }
+
+  /* CTA */
+  .cta-section { padding: 5rem 1.5rem; }
+  .cta-headline { font-size: clamp(2rem, 8vw, 3rem); }
+  .cta-actions { flex-direction: column; align-items: center; }
+  .cta-actions a { width: 100%; max-width: 320px; text-align: center; }
+
+  /* Footer */
+  footer { flex-direction: column; align-items: flex-start; padding: 2rem 1.5rem; gap: 0.75rem; }
+
+  /* Section headlines */
+  .section-headline { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+
+  /* General touch targets */
+  .btn-primary, .btn-ghost, .btn-lg { padding: 1rem 1.75rem; font-size: 0.88rem; min-height: 48px; }
+  input[type=range] { height: 6px; }
+  input[type=range]::-webkit-slider-thumb { width: 22px; height: 22px; }
+}
+
+@media(max-width:480px){
+  .lens-grid { grid-template-columns: 1fr; }
+  .lens-cell:last-child { grid-column: auto; }
+  .hero-footer { justify-content: space-around; }
+  .dim-card-title { font-size: 0.72rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <nav>
+    <div class="nav-logo">Compounding<span>™</span></div>
+    <div class="nav-links">
+      <a href="#vs">vs. Slide Decks</a>
+      <a href="#framework">The Framework</a>
+      <a href="#scorer">Decision Scorer</a>
+      <a href="#critique">Foundations</a>
+      <a href="#cta" class="nav-cta">Start Scoring</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#vs" onclick="closeMobileMenu()">vs. Slide Decks</a>
+    <a href="#framework" onclick="closeMobileMenu()">The Framework</a>
+    <a href="#scorer" onclick="closeMobileMenu()">Decision Scorer</a>
+    <a href="#critique" onclick="closeMobileMenu()">Foundations</a>
+    <a href="#cta" class="nav-cta" onclick="closeMobileMenu()">Start Scoring</a>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-eyebrow fade-up fade-up-1">The Compounding Decision Framework™</div>
+    <h1 class="hero-headline fade-up fade-up-2">
+      Build something<br>that <em>compounds.</em>
+    </h1>
+    <p class="hero-sub fade-up fade-up-3">
+      A rigorous decision methodology with financial clarity, strategic depth, and honest risk mapping — built for founders who think in decades, not quarters.
+    </p>
+    <div class="hero-actions fade-up fade-up-4">
+      <a href="#scorer" class="btn-primary">Score a Decision Now</a>
+      <a href="#framework" class="btn-ghost">See the Framework</a>
+    </div>
+  </div>
+
+  <div class="hero-footer">
+    <div class="hero-stat">
+      <div class="hero-stat-num">5</div>
+      <div class="hero-stat-label">Framework Steps</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">5</div>
+      <div class="hero-stat-label">Compounding Lenses</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">1</div>
+      <div class="hero-stat-label">Critical Filter</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">3</div>
+      <div class="hero-stat-label">Outcomes: Go / Redesign / No</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── VS SLIDES ─── -->
+<section class="vs-section" id="vs">
+  <div style="text-align:center;max-width:680px;margin:0 auto">
+    <div class="section-eyebrow">Why not another slide deck?</div>
+    <h2 class="section-headline" style="margin:0 auto 1rem">Your decisions deserve more than bullet points</h2>
+    <p class="section-sub" style="margin:0 auto">Most strategy decks tell you what to think. This framework builds the muscle to think better — and gives you a live scoring tool, not a static file to forget.</p>
+  </div>
+
+  <div class="vs-grid">
+    <div class="vs-col left">
+      <div class="vs-col-header">
+        <div class="vs-col-icon slides">📊</div>
+        <div class="vs-col-title">Conventional Slide Decks</div>
+      </div>
+      <div class="vs-items">
+        <div class="vs-item">
+          <div class="vs-marker marker-x">✕</div>
+          Static — read once, filed away, forgotten within a week
+        </div>
+        <div class="vs-item">
+          <div class="vs-marker marker-x">✕</div>
+          Presenter-dependent: the insight lives with the person, not the method
+        </div>
+        <div class="vs-item">
+          <div class="vs-marker marker-x">✕</div>
+          One-size-fits-all framing that doesn't adapt to your actual decision
+        </div>
+        <div class="vs-item">
+          <div class="vs-marker marker-x">✕</div>
+          No scoring rubric — conclusions are assertions, not derived outputs
+        </div>
+        <div class="vs-item">
+          <div class="vs-marker marker-x">✕</div>
+          Linear thinking dressed as strategy — activity without compounding
+        </div>
+        <div class="vs-item">
+          <div class="vs-marker marker-x">✕</div>
+          Team walks away with different interpretations — misalignment baked in
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-mid">
+      <div class="vs-vs">VS</div>
+    </div>
+
+    <div class="vs-col right">
+      <div class="vs-col-header">
+        <div class="vs-col-icon framework">⬡</div>
+        <div class="vs-col-title">The Compounding Framework</div>
+      </div>
+      <div class="vs-items">
+        <div class="vs-item">
+          <div class="vs-marker marker-check">✓</div>
+          Interactive — runs live on any decision, in any meeting, instantly
+        </div>
+        <div class="vs-item">
+          <div class="vs-marker marker-check">✓</div>
+          Method-first: the framework becomes the team's shared operating system
+        </div>
+        <div class="vs-item">
+          <div class="vs-marker marker-check">✓</div>
+          Five structured steps that adapt to the specific contours of each decision
+        </div>
+        <div class="vs-item">
+          <div class="vs-marker marker-check">✓</div>
+          Live scoring engine: weighted inputs generate a real, reproducible verdict
+        </div>
+        <div class="vs-item">
+          <div class="vs-marker marker-check">✓</div>
+          Compounding test built in — every decision filtered for long-term value architecture
+        </div>
+        <div class="vs-item">
+          <div class="vs-marker marker-check">✓</div>
+          Structured output: Go / Redesign / No — team leaves aligned on the same verdict
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FRAMEWORK ─── -->
+<section class="framework-section" id="framework">
+  <div class="section-eyebrow">The methodology</div>
+  <h2 class="section-headline">Five steps. One filter. Every decision.</h2>
+  <p class="section-sub">Click any step to explore what it requires, what it produces, and where the original framework needed reinforcing.</p>
+
+  <div class="steps-row">
+    <div class="step" onclick="showStep(0)" id="step-0">
+      <div class="step-num-badge" style="background:#0D1F3C">1</div>
+      <div class="step-name">Clarify the Decision</div>
+      <div class="step-brief">Get clear on the real decision — not the preferred outcome or the comfortable version of it.</div>
+      <div><span class="step-tag tag-strong">Strong</span></div>
+    </div>
+    <div class="step" onclick="showStep(1)" id="step-1">
+      <div class="step-num-badge" style="background:#0F6E56">2</div>
+      <div class="step-name">Map the "What If"</div>
+      <div class="step-brief">Surface upside, downside, hidden assumptions, and second-order effects on team, cash, and focus.</div>
+      <div><span class="step-tag tag-strong">Strong</span></div>
+    </div>
+    <div class="step" onclick="showStep(2)" id="step-2">
+      <div class="step-num-badge" style="background:#C8962E">3</div>
+      <div class="step-name">Apply Financial Reality</div>
+      <div class="step-brief">Anchor the decision in real numbers: cash flow, capital requirements, time-to-return, sensitivity.</div>
+      <div><span class="step-tag tag-strong">Financial Gate</span></div>
+    </div>
+    <div class="step" onclick="showStep(3)" id="step-3">
+      <div class="step-num-badge" style="background:#185FA5">4</div>
+      <div class="step-name">Test for Compounding</div>
+      <div class="step-brief">Does this build leverage — brand, systems, capability — or does value reset every cycle?</div>
+      <div><span class="step-tag tag-distinctive">Distinctive</span></div>
+    </div>
+    <div class="step" onclick="showStep(4)" id="step-4">
+      <div class="step-num-badge" style="background:#533AB7">5</div>
+      <div class="step-name">Commit with Eyes Open</div>
+      <div class="step-brief">Go / No-Go / Adjust. What must be true for this to work? What are we actually committing to?</div>
+      <div><span class="step-tag tag-strong">Closing Ritual</span></div>
+    </div>
+  </div>
+
+  <!-- Step detail panels -->
+  <div id="detail-0" class="step-detail">
+    <div class="step-detail-head">Step 1 — Clarify the Decision</div>
+    <div class="step-detail-sub">Most founders decide the outcome before they frame the decision. This step forces a clean separation: what are we actually deciding, separate from what we want the answer to be? A time horizon is mandatory input here — compounding over 18 months is a different architecture from compounding over 5 years.</div>
+    <div class="step-detail-grid">
+      <div>
+        <div class="detail-block-title">What this step requires</div>
+        <ul class="detail-list">
+          <li>A decision statement that a neutral third party could understand</li>
+          <li>Explicit time horizon — by when, over what period</li>
+          <li>Who has voice, who has vote, who is the final decision-maker</li>
+          <li>What would make this decision reversible vs. irreversible</li>
+        </ul>
+      </div>
+      <div>
+        <div class="detail-block-title" style="margin-bottom:.75rem">Output</div>
+        <div class="output-chip">→ A clearly framed growth decision</div>
+        <div class="detail-block-title" style="margin-top:1.25rem">Why this step matters</div>
+        <ul class="detail-list">
+          <li>Most founders decide the outcome before they frame the decision</li>
+          <li>Explicit time horizon required — compounding over 18 months is a different architecture from 5 years</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="detail-1" class="step-detail">
+    <div class="step-detail-head">Step 2 — Map the "What If"</div>
+    <div class="step-detail-sub">Explicitly naming team, cash, and focus as second-order ripple vectors forces the uncomfortable questions early — before commitment makes them expensive to ask. Most frameworks ask "what if it works?" — this one asks "what breaks, and for whom?"</div>
+    <div class="step-detail-grid">
+      <div>
+        <div class="detail-block-title">What this step requires</div>
+        <ul class="detail-list">
+          <li>Best case, worst case, and most likely case modelled explicitly</li>
+          <li>Hidden assumptions surfaced and named (not left implicit)</li>
+          <li>Second-order effects on: team capacity, cash runway, strategic focus</li>
+          <li>Opportunity cost — what are we not doing if we do this?</li>
+        </ul>
+      </div>
+      <div>
+        <div class="detail-block-title" style="margin-bottom:.75rem">Output</div>
+        <div class="output-chip">→ A structured scenario map</div>
+        <div class="detail-block-title" style="margin-top:1.25rem">Why this step matters</div>
+        <ul class="detail-list">
+          <li>Second-order thinking surfaces what most leaders discover too late</li>
+          <li>Forces separation of assumptions from evidence before commitment</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="detail-2" class="step-detail">
+    <div class="step-detail-head">Step 3 — Apply Financial Reality</div>
+    <div class="step-detail-sub">Anchoring the decision in real numbers prevents commitment to strategies that cannot survive contact with a balance sheet. Cash requirements, time-to-return, and break-even thresholds must be stated before a decision proceeds.</div>
+    <div class="step-detail-grid">
+      <div>
+        <div class="detail-block-title">What this step requires</div>
+        <ul class="detail-list">
+          <li>Cash required to reach the next value milestone</li>
+          <li>Time-to-return estimate with a low and high range</li>
+          <li>Break-even threshold — what does success minimally look like?</li>
+          <li>Sensitivity: what variable, if wrong, kills this decision?</li>
+        </ul>
+      </div>
+      <div>
+        <div class="detail-block-title" style="margin-bottom:.75rem">Output</div>
+        <div class="output-chip">→ Financial demands &amp; returns view</div>
+        <div class="detail-block-title" style="margin-top:1.25rem">Why this step matters</div>
+        <ul class="detail-list">
+          <li>Prevents committing capital to strategies built on hope, not modelling</li>
+          <li>The single-variable sensitivity test reveals where the decision is most fragile</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="detail-3" class="step-detail">
+    <div class="step-detail-head">Step 4 — Test for Compounding</div>
+    <div class="step-detail-sub">The most distinctive step. Asking "does value accumulate or reset each cycle?" is a powerful filter most decision frameworks entirely lack. It reframes growth as architecture, not activity. The live Decision Scorer is the tool that makes this test quantifiable and reproducible.</div>
+    <div class="step-detail-grid">
+      <div>
+        <div class="detail-block-title">The compounding test</div>
+        <ul class="detail-list">
+          <li>Does this create leverage — systems, brand, capability — that multiplies?</li>
+          <li>Does value sustain beyond the initial investment cycle?</li>
+          <li>Does this open more future choices (optionality) or close them?</li>
+          <li>Does this make the business more resilient through downturns?</li>
+          <li>Does this increase intrinsic business value, not just revenue?</li>
+        </ul>
+      </div>
+      <div>
+        <div class="detail-block-title" style="margin-bottom:.75rem">Output</div>
+        <div class="output-chip">→ Score: Go / Redesign / No</div>
+        <div class="detail-block-title" style="margin-top:1.25rem">Why this step matters</div>
+        <ul class="detail-list">
+          <li>"Redesign" is a real output — most frameworks force a binary that discards good ideas prematurely</li>
+          <li>The scorer turns this into a quantified, reproducible verdict</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="detail-4" class="step-detail">
+    <div class="step-detail-head">Step 5 — Commit with Eyes Open</div>
+    <div class="step-detail-sub">Commitment without a closing ritual collapses into gut feel. This step provides four specific conditions that must be satisfied before any commitment is made: reversibility, explicit conditions, pre-mortem, and review trigger.</div>
+    <div class="step-detail-grid">
+      <div>
+        <div class="detail-block-title">The closing ritual</div>
+        <ul class="detail-list">
+          <li>Reversibility rating: one-way door vs. two-way door</li>
+          <li>Explicit commitment: what are we actually agreeing to?</li>
+          <li>Pre-mortem: if this fails in 12 months, what was the most likely cause?</li>
+          <li>Review trigger: what event prompts a reassessment?</li>
+        </ul>
+      </div>
+      <div>
+        <div class="detail-block-title" style="margin-bottom:.75rem">Output</div>
+        <div class="output-chip">→ Aligned decision + next steps</div>
+        <div class="detail-block-title" style="margin-top:1.25rem">Why this step matters</div>
+        <ul class="detail-list">
+          <li>Distinguishes one-way doors from two-way doors, calibrating commitment depth appropriately</li>
+          <li>Team leaves with a shared, explicit understanding of what was agreed and why</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LENS ─── -->
+<section class="lens-section">
+  <div style="text-align:center">
+    <div class="section-eyebrow" style="color:rgba(200,150,46,.7)">The compounding lens</div>
+    <h2 class="section-headline" style="color:#fff;margin:0 auto 1rem">Evaluate every option through<br>long-term value creation</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,.45);margin:0 auto">Five dimensions. Explicit weights. A verdict you can defend — not just a feeling you have to justify.</p>
+  </div>
+
+  <div class="lens-grid">
+    <div class="lens-cell">
+      <div class="lens-weight-bar" style="background:linear-gradient(90deg,#0F6E56,#1a9973);width:85%"></div>
+      <div class="lens-label">Dimension 01</div>
+      <div class="lens-title">Leverage</div>
+      <div class="lens-q">"Does this create systems, assets, or advantages that multiply over time — or does it require the same input every cycle?"</div>
+      <div class="lens-weight-label">Weight: 25%</div>
+    </div>
+    <div class="lens-cell">
+      <div class="lens-weight-bar" style="background:linear-gradient(90deg,#185FA5,#2a7fd4);width:80%"></div>
+      <div class="lens-label">Dimension 02</div>
+      <div class="lens-title">Durability</div>
+      <div class="lens-q">"Will the benefits of this decision sustain meaningfully beyond the initial investment period?"</div>
+      <div class="lens-weight-label">Weight: 20%</div>
+    </div>
+    <div class="lens-cell">
+      <div class="lens-weight-bar" style="background:linear-gradient(90deg,#C8962E,#e8b84b);width:65%"></div>
+      <div class="lens-label">Dimension 03</div>
+      <div class="lens-title">Optionality</div>
+      <div class="lens-q">"Does this decision open more future choices — or does it narrow our strategic space?"</div>
+      <div class="lens-weight-label">Weight: 15%</div>
+    </div>
+    <div class="lens-cell">
+      <div class="lens-weight-bar" style="background:linear-gradient(90deg,#533AB7,#7B5CE0);width:70%"></div>
+      <div class="lens-label">Dimension 04</div>
+      <div class="lens-title">Resilience</div>
+      <div class="lens-q">"Does this make the business stronger and more durable through market cycles and downturns?"</div>
+      <div class="lens-weight-label">Weight: 15%</div>
+    </div>
+    <div class="lens-cell">
+      <div class="lens-weight-bar" style="background:linear-gradient(90deg,#D85A30,#f07040);width:90%"></div>
+      <div class="lens-label">Dimension 05</div>
+      <div class="lens-title">Value</div>
+      <div class="lens-q">"Does this increase intrinsic business value — not just this year's revenue, but the enterprise itself?"</div>
+      <div class="lens-weight-label">Weight: 25%</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SCORER ─── -->
+<section class="scorer-section" id="scorer">
+  <div class="section-eyebrow">Live Decision Scorer</div>
+  <h2 class="section-headline">Score your decision across<br>five compounding dimensions.</h2>
+  <p class="section-sub">Answer five diagnostic questions per dimension, then set your slider. The scorer applies weighted analysis and returns a real verdict with specific flags — not a feeling, a number.</p>
+
+  <div class="scorer-layout" style="grid-template-columns:1fr 380px">
+
+    <!-- Left: radar + dimension question cards -->
+    <div>
+      <div class="radar-wrap" style="margin-bottom:2rem">
+        <canvas id="radarChart" style="max-height:380px" role="img" aria-label="Radar chart showing compounding scores"></canvas>
+        <div class="legend" style="margin-top:1.25rem">
+          <div class="legend-item">
+            <div class="legend-swatch" style="background:#0F6E56;opacity:.7"></div>
+            Your decision
+          </div>
+          <div class="legend-item">
+            <div class="legend-swatch" style="border:1.5px dashed #C8962E;background:transparent"></div>
+            Compounding threshold (6/10)
+          </div>
+        </div>
+      </div>
+
+      <!-- Dimension question cards -->
+      <div style="display:flex;flex-direction:column;gap:1rem">
+
+        <!-- LEVERAGE -->
+        <div class="dim-card" id="dcard-lev">
+          <div class="dim-card-header" onclick="toggleDim('lev')">
+            <div class="dim-card-color" style="background:#0F6E56"></div>
+            <div class="dim-card-title">Leverage <span class="dim-weight-tag">25%</span></div>
+            <div class="dim-card-score" id="dcard-score-lev">5/10</div>
+            <div class="dim-card-arrow" id="darrow-lev">▾</div>
+          </div>
+          <div class="dim-card-body" id="dbody-lev">
+            <p class="dim-card-intro">Ask yourself these five questions. Count how many you can answer "yes" to — then set the slider accordingly.</p>
+            <ol class="dim-questions">
+              <li>Will this decision produce an asset (a system, process, brand, or capability) that continues working after the initial effort is done?</li>
+              <li>Could the output of this decision be scaled without a proportional increase in cost or headcount?</li>
+              <li>Does this create a structural advantage that makes future decisions in this area easier or cheaper?</li>
+              <li>Will this decision reduce our dependency on any single person's time or expertise over the next 12 months?</li>
+              <li>In two years, will this have made us more able to pursue other opportunities — not just this one?</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- DURABILITY -->
+        <div class="dim-card" id="dcard-dur">
+          <div class="dim-card-header" onclick="toggleDim('dur')">
+            <div class="dim-card-color" style="background:#185FA5"></div>
+            <div class="dim-card-title">Durability <span class="dim-weight-tag">20%</span></div>
+            <div class="dim-card-score" id="dcard-score-dur">5/10</div>
+            <div class="dim-card-arrow" id="darrow-dur">▾</div>
+          </div>
+          <div class="dim-card-body" id="dbody-dur">
+            <p class="dim-card-intro">Durability tests whether the value survives. If benefits disappear the moment investment stops, the decision resets — not compounds.</p>
+            <ol class="dim-questions">
+              <li>Will the benefits of this decision still be felt in three years without ongoing, heavy reinvestment?</li>
+              <li>Does this create switching costs, habits, or network effects that make the value sticky over time?</li>
+              <li>Is the core value of this decision protected from easy competitor replication within 18 months?</li>
+              <li>Would a significant market downturn reduce the value of this decision, or leave it largely intact?</li>
+              <li>Does this decision strengthen a relationship, reputation, or capability that compounds with time rather than depreciating?</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- OPTIONALITY -->
+        <div class="dim-card" id="dcard-opt">
+          <div class="dim-card-header" onclick="toggleDim('opt')">
+            <div class="dim-card-color" style="background:#C8962E"></div>
+            <div class="dim-card-title">Optionality <span class="dim-weight-tag">15%</span></div>
+            <div class="dim-card-score" id="dcard-score-opt">5/10</div>
+            <div class="dim-card-arrow" id="darrow-opt">▾</div>
+          </div>
+          <div class="dim-card-body" id="dbody-opt">
+            <p class="dim-card-intro">Optionality measures whether this decision opens or closes future choices. A high optionality decision keeps you in the game for moves you haven't thought of yet.</p>
+            <ol class="dim-questions">
+              <li>Does committing to this decision preserve our ability to pursue at least two other significant opportunities in the next 12 months?</li>
+              <li>If this doesn't work as planned, does it leave us with assets, relationships, or learnings that remain useful?</li>
+              <li>Does this decision give us access to a new market, channel, or customer segment we currently can't reach?</li>
+              <li>Is this decision reversible within six months if circumstances change — without unacceptable cost?</li>
+              <li>Will executing this decision give us better information to make the next decision more confidently?</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- RESILIENCE -->
+        <div class="dim-card" id="dcard-res">
+          <div class="dim-card-header" onclick="toggleDim('res')">
+            <div class="dim-card-color" style="background:#533AB7"></div>
+            <div class="dim-card-title">Resilience <span class="dim-weight-tag">15%</span></div>
+            <div class="dim-card-score" id="dcard-score-res">5/10</div>
+            <div class="dim-card-arrow" id="darrow-res">▾</div>
+          </div>
+          <div class="dim-card-body" id="dbody-res">
+            <p class="dim-card-intro">Resilience tests whether this decision strengthens the business's ability to absorb shocks — or increases its fragility under pressure.</p>
+            <ol class="dim-questions">
+              <li>If revenue dropped by 30% for six months, would this decision still look like the right one to have made?</li>
+              <li>Does this reduce our dependency on a single client, supplier, channel, or technology?</li>
+              <li>Would this decision make our team stronger, more capable, or more aligned — not just busier?</li>
+              <li>Does this give us greater pricing power, margin protection, or cost efficiency over time?</li>
+              <li>If a key competitor copied this decision within 12 months, would we still have a meaningful advantage?</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- VALUE -->
+        <div class="dim-card" id="dcard-val">
+          <div class="dim-card-header" onclick="toggleDim('val')">
+            <div class="dim-card-color" style="background:#D85A30"></div>
+            <div class="dim-card-title">Value <span class="dim-weight-tag">25%</span></div>
+            <div class="dim-card-score" id="dcard-score-val">5/10</div>
+            <div class="dim-card-arrow" id="darrow-val">▾</div>
+          </div>
+          <div class="dim-card-body" id="dbody-val">
+            <p class="dim-card-intro">Value here means enterprise value — what a rational buyer or investor would pay — not just this year's revenue or margin contribution.</p>
+            <ol class="dim-questions">
+              <li>Would this decision make the business demonstrably more valuable to an acquirer or investor — not just more profitable this year?</li>
+              <li>Does this strengthen any of the core drivers of enterprise value: recurring revenue, defensibility, team quality, or market position?</li>
+              <li>Does this reduce the perceived risk of the business — making future capital cheaper or easier to access?</li>
+              <li>Will this decision appear in the "why we are different" narrative when we next raise capital or go to market?</li>
+              <li>If we stopped all other activity for 90 days to focus on this, would the business be worth more at the end of it?</li>
+            </ol>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right: sliders + score panel -->
+    <div class="controls" style="position:sticky;top:2rem">
+      <p class="ctrl-intro">Use the diagnostic questions on the left to calibrate each slider. The score updates in real time.</p>
+
+      <div class="ctrl-group">
+        <div class="ctrl-label">Leverage <span class="ctrl-val" id="lev-val">5</span></div>
+        <input type="range" min="1" max="10" value="5" id="lev" step="1" oninput="updateScorer()">
+        <div class="ctrl-hint">Creates systems or assets that multiply over time</div>
+      </div>
+
+      <div class="ctrl-group">
+        <div class="ctrl-label">Durability <span class="ctrl-val" id="dur-val">5</span></div>
+        <input type="range" min="1" max="10" value="5" id="dur" step="1" oninput="updateScorer()">
+        <div class="ctrl-hint">Benefits sustain beyond the initial investment period</div>
+      </div>
+
+      <div class="ctrl-group">
+        <div class="ctrl-label">Optionality <span class="ctrl-val" id="opt-val">5</span></div>
+        <input type="range" min="1" max="10" value="5" id="opt" step="1" oninput="updateScorer()">
+        <div class="ctrl-hint">Opens more future choices and strategic doors</div>
+      </div>
+
+      <div class="ctrl-group">
+        <div class="ctrl-label">Resilience <span class="ctrl-val" id="res-val">5</span></div>
+        <input type="range" min="1" max="10" value="5" id="res" step="1" oninput="updateScorer()">
+        <div class="ctrl-hint">Strengthens the business through market cycles</div>
+      </div>
+
+      <div class="ctrl-group">
+        <div class="ctrl-label">Value <span class="ctrl-val" id="val-val">5</span></div>
+        <input type="range" min="1" max="10" value="5" id="valr" step="1" oninput="updateScorer()">
+        <div class="ctrl-hint">Increases intrinsic business value, not just revenue</div>
+      </div>
+
+      <div class="score-panel">
+        <div class="score-label">Compounding Score</div>
+        <div class="score-number" id="score-num">50 <span>/ 100</span></div>
+        <div class="score-track"><div class="score-fill" id="score-fill" style="width:50%"></div></div>
+        <div class="score-verdict" id="score-verdict">Threshold decision — consider redesigning the structure</div>
+        <div class="verdict-flags" id="verdict-flags"></div>
+      </div>
+
+      <button class="score-btn" onclick="scrollToCTA()">Explore this with me → Book a working session</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── METHODOLOGY FOUNDATIONS ─── -->
+<section class="critique-section" id="critique">
+  <div class="section-eyebrow">Methodology Foundations</div>
+  <h2 class="section-headline">Built on validated thinking.<br>Sharpened for founders.</h2>
+  <p class="section-sub">The Compounding Decision Framework draws on decades of validated research in decision science, strategic theory, and behavioural economics — synthesised into a single, actionable process.</p>
+
+  <div class="insight-banner">
+    <div class="insight-icon">⟁</div>
+    <div>
+      <div class="insight-label-small">The Core Insight</div>
+      <div class="insight-body">Most business decisions are evaluated on short-term return. This framework introduces a different primary filter: does this decision compound? Does it build leverage, durability, and strategic optionality over time — or does it produce activity that resets at the end of each cycle? That single question changes what gets built.</div>
+    </div>
+  </div>
+
+  <div class="crit-grid">
+    <div class="crit-card">
+      <div class="crit-card-title strong">What makes this framework distinctive</div>
+      <div class="crit-item">
+        <div class="crit-icon icon-s">✓</div>
+        <div><strong>The compounding lens as a primary filter.</strong> Most decision frameworks optimise for return. This one optimises for compounding architecture — asking whether value accumulates or resets, and treating that distinction as the most important question before committing capital or focus.</div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-icon icon-s">✓</div>
+        <div><strong>Second-order effects are explicit, not assumed.</strong> Team capacity, cash runway, and strategic focus are named as required inputs — not afterthoughts. The framework surfaces what most leaders discover too late.</div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-icon icon-s">✓</div>
+        <div><strong>Three outputs, not two.</strong> Go / Redesign / No. "Redesign" is the most valuable output — it tells you the idea has merit but the structure does not. Most frameworks force a binary that discards good ideas prematurely.</div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-icon icon-s">✓</div>
+        <div><strong>Financial reality is a mandatory gate, not a footnote.</strong> Cash requirements, time-to-return, and break-even thresholds must be stated before a decision proceeds — preventing commitment to strategies that cannot survive contact with a balance sheet.</div>
+      </div>
+    </div>
+
+    <div class="crit-card">
+      <div class="crit-card-title" style="color:var(--navy)">Validated intellectual foundations</div>
+      <div class="crit-item">
+        <div class="crit-icon icon-a">①</div>
+        <div><strong>Compounding & mental models — Charlie Munger.</strong> Munger's latticework of mental models and his emphasis on compounding as the central force in building durable value is foundational to Step 4's compounding test and the five-lens scoring architecture.</div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-icon icon-a">②</div>
+        <div><strong>Second-order thinking — Howard Marks.</strong> Marks' framework for thinking beyond first-order consequences — "and then what?" — directly informs Step 2's scenario mapping, particularly the requirement to surface ripple effects on team, cash, and focus.</div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-icon icon-a">③</div>
+        <div><strong>Optionality & asymmetric risk — Nassim Taleb.</strong> Taleb's concept of seeking decisions with convex payoffs — limited downside, large upside — underpins the Optionality dimension of the scorer and the reversibility rating in Step 5.</div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-icon icon-a">④</div>
+        <div><strong>Pre-mortem & decision hygiene — Daniel Kahneman.</strong> Kahneman's work on cognitive bias and prospective hindsight (the pre-mortem technique) shapes Step 5's closing ritual — specifically the requirement to name the most likely failure cause before committing.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="crit-card">
+    <div class="crit-card-title" style="color:var(--navy)">Additional validated frameworks this methodology builds on</div>
+    <div class="additional-frameworks-grid">
+      <div>
+        <div class="crit-item"><div class="crit-icon icon-s">⑤</div><div><strong>Jobs-to-be-Done — Clayton Christensen.</strong> The JTBD lens informs Step 1's decision clarification process: what is the real job this decision is hired to do? Separating the surface request from the underlying strategic need.</div></div>
+        <div class="crit-item"><div class="crit-icon icon-s">⑥</div><div><strong>Durable competitive advantage — Michael Porter.</strong> Porter's work on sustainable competitive positioning grounds the Durability and Value dimensions — asking whether a decision builds structural advantage or merely temporary differentiation.</div></div>
+      </div>
+      <div>
+        <div class="crit-item"><div class="crit-icon icon-s">⑦</div><div><strong>Reversible vs. irreversible decisions — Jeff Bezos.</strong> The one-way/two-way door distinction from Amazon's decision-making doctrine is the direct source of Step 5's reversibility rating — calibrating commitment depth to the actual stakes involved.</div></div>
+        <div class="crit-item"><div class="crit-icon icon-s">⑧</div><div><strong>Sensitivity analysis — financial modelling practice.</strong> The requirement in Step 3 to identify the single variable whose failure kills the decision draws on standard sensitivity analysis methodology used in venture capital and corporate finance.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta-section" id="cta">
+  <h2 class="cta-headline">Ready to stop deciding<br>by gut feel?</h2>
+  <p class="cta-sub">Score your next decision with the framework. If the verdict surprises you — that's the point. That's where the work begins.</p>
+  <div class="cta-actions">
+    <a href="#scorer" class="btn-lg btn-gold">Score a Decision Now</a>
+    <a href="#framework" class="btn-lg btn-outline">Review the Framework</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">The Compounding Decision Framework™</div>
+  <div class="footer-copy">Built for founders who think in decades.</div>
+</footer>
+
+<script>
+// ─── STEP DETAILS ───
+let activeStep = null;
+function showStep(n){
+  if(activeStep===n){
+    document.getElementById('detail-'+n).classList.remove('visible');
+    document.getElementById('step-'+n).classList.remove('active');
+    activeStep=null;return;
+  }
+  if(activeStep!==null){
+    document.getElementById('detail-'+activeStep).classList.remove('visible');
+    document.getElementById('step-'+activeStep).classList.remove('active');
+  }
+  document.getElementById('detail-'+n).classList.add('visible');
+  document.getElementById('step-'+n).classList.add('active');
+  activeStep=n;
+  setTimeout(()=>{
+    document.getElementById('detail-'+n).scrollIntoView({behavior:'smooth',block:'nearest'});
+  },50);
+}
+
+// ─── DIMENSION CARD TOGGLES ───
+function toggleDim(id){
+  const body=document.getElementById('dbody-'+id);
+  const arrow=document.getElementById('darrow-'+id);
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  arrow.classList.toggle('open',!isOpen);
+}
+
+// ─── RADAR CHART ───
+let radarChart;
+(function initRadar(){
+  const ctx = document.getElementById('radarChart').getContext('2d');
+  radarChart = new Chart(ctx, {
+    type:'radar',
+    data:{
+      labels:['Leverage','Durability','Optionality','Resilience','Value'],
+      datasets:[
+        {
+          label:'Your Decision',
+          data:[5,5,5,5,5],
+          backgroundColor:'rgba(15,110,86,.15)',
+          borderColor:'#0F6E56',
+          borderWidth:2,
+          pointBackgroundColor:'#0F6E56',
+          pointRadius:5,
+          pointHoverRadius:7
+        },
+        {
+          label:'Threshold',
+          data:[6,6,6,6,6],
+          backgroundColor:'rgba(200,150,46,.04)',
+          borderColor:'rgba(200,150,46,.5)',
+          borderWidth:1.5,
+          borderDash:[5,4],
+          pointRadius:0
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:true,
+      plugins:{legend:{display:false}},
+      scales:{
+        r:{
+          min:0,max:10,
+          ticks:{stepSize:2,font:{size:9,family:'DM Sans'},color:'#888780',backdropColor:'transparent'},
+          pointLabels:{font:{size:11,family:'DM Sans',weight:'500'},color:'#0D1F3C'},
+          grid:{color:'rgba(136,135,128,.15)'},
+          angleLines:{color:'rgba(136,135,128,.15)'}
+        }
+      }
+    }
+  });
+  updateScorer();
+})();
+
+// ─── SCORER LOGIC ───
+function updateScorer(){
+  const v={
+    lev:+document.getElementById('lev').value,
+    dur:+document.getElementById('dur').value,
+    opt:+document.getElementById('opt').value,
+    res:+document.getElementById('res').value,
+    val:+document.getElementById('valr').value
+  };
+
+  document.getElementById('lev-val').textContent=v.lev;
+  document.getElementById('dur-val').textContent=v.dur;
+  document.getElementById('opt-val').textContent=v.opt;
+  document.getElementById('res-val').textContent=v.res;
+  document.getElementById('val-val').textContent=v.val;
+
+  // Sync card score badges
+  document.getElementById('dcard-score-lev').textContent=v.lev+'/10';
+  document.getElementById('dcard-score-dur').textContent=v.dur+'/10';
+  document.getElementById('dcard-score-opt').textContent=v.opt+'/10';
+  document.getElementById('dcard-score-res').textContent=v.res+'/10';
+  document.getElementById('dcard-score-val').textContent=v.val+'/10';
+
+  const w={lev:.25,dur:.2,opt:.15,res:.15,val:.25};
+  const score=Math.round((v.lev*w.lev+v.dur*w.dur+v.opt*w.opt+v.res*w.res+v.val*w.val)*10);
+
+  document.getElementById('score-num').innerHTML=score+' <span>/ 100</span>';
+  document.getElementById('score-fill').style.width=score+'%';
+
+  let verdict;
+  if(score>=75){verdict='Strong compounder — proceed with structured commitment.'}
+  else if(score>=55){verdict='Threshold decision — redesign the structure before committing.'}
+  else{verdict='Linear or value-destroying as structured — do not commit yet.'}
+  document.getElementById('score-verdict').textContent=verdict;
+
+  const flags=[];
+  if(v.lev<=4) flags.push({t:'Low leverage — this may produce revenue, not assets. How can the output be systematised?',c:'#D85A30'});
+  if(v.dur<=4) flags.push({t:'Low durability — value likely resets each cycle. Restructure for recurring benefit.',c:'#D85A30'});
+  if(v.res<=3) flags.push({t:'Fragile under pressure — model how this performs in a downturn before committing.',c:'#C8962E'});
+  if(v.opt>=8) flags.push({t:'High optionality — this decision opens significant future choices. A compounding signal.',c:'#0F6E56'});
+  if(v.lev>=8&&v.val>=8) flags.push({t:'High leverage + high value — strong compounding architecture detected.',c:'#0F6E56'});
+  if(flags.length===0) flags.push({t:'Balanced profile. Use the scenario map (Step 2) to find the highest-leverage redesign opportunity.',c:'#888780'});
+
+  const fl=document.getElementById('verdict-flags');
+  fl.innerHTML=flags.map(f=>`<div class="flag"><div class="flag-dot" style="background:${f.c}"></div><span>${f.t}</span></div>`).join('');
+
+  if(radarChart){
+    radarChart.data.datasets[0].data=[v.lev,v.dur,v.opt,v.res,v.val];
+    radarChart.update('none');
+  }
+}
+
+// ─── MOBILE MENU ───
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+function closeMobileMenu() {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function scrollToCTA(){
+  document.getElementById('cta').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
